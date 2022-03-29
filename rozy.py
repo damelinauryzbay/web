@@ -24,9 +24,51 @@ def index():
 def roses():
     title = "Розы"
     head = "Голландские розы"
+    name = 'голландской розы'
     price = 385
-    return render_template("roses.html",
-                           title=title, head=head, price=price)
+    info = 'Голландские розы — лидеры продаж среди многочисленных цветочных композиций. Даже букет с простым ' \
+           'оформлением, отсутствием декоративных элементов и других представителей ароматного мира ' \
+           'флоры выглядит идеальным!'
+    name_of_photo = '/static/roses.jpg'
+    return render_template("flowers.html",
+                           title=title, head=head, price=price, info=info, photo=name_of_photo, name=name)
+
+@app.route('/chrys')
+def chrys():
+    title = "Хризантемы"
+    head = "Хризантемы"
+    name = 'хризантемы'
+    price = 385
+    info = 'Цветы хризантемы – небольшие цветки декоративно-овощного растения. Эти милые цветы впишутся в любой ' \
+           'интерьер и станут прелестным подарком.'
+    name_of_photo = '/static/chrys.png'
+    return render_template("flowers.html",
+                           title=title, head=head, price=price, info=info, photo=name_of_photo, name=name)
+
+
+@app.route('/pions')
+def pions():
+    title = "Пионы"
+    head = "Пионы Гардения"
+    name = 'пиона Гардения'
+    price = 490
+    info = 'Пионы гардения - прекрасные и пышные цветы так излюбленные многими людьми. Белые лепестки задорно ' \
+           'искрятся в солнечных лучах благодаря нежному розовому отливу. Они впишутся в любой праздничный букет!'
+    name_of_photo = '/static/chrys.jpg'
+    return render_template("flowers.html",
+                           title=title, head=head, price=price, info=info, photo=name_of_photo, name=name)
+
+@app.route('/gvozdiki')
+def gvoz():
+    title = "Гвоздики"
+    head = "Гвоздики Дон Педро"
+    name = 'гвоздики Дон Педро'
+    price = 430
+    info = 'Гвоздики Дон Педро - самые красные и популярные гвоздики. Являются символом любви и будут ' \
+           'лучшим выбором для подарка любимому человеку!'
+    name_of_photo = '/static/gvozdiki.jpg'
+    return render_template("flowers.html",
+                           title=title, head=head, price=price, info=info, photo=name_of_photo, name=name)
 
 #
 # def main():
