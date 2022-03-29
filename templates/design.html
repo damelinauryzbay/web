@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+</head>
+<body>
+    <h1> Цветочный Магазин </h1>
+<img src="/static/logo.jpg" alt="Картинка" width = "700" height= "500">
+<h2>Цветы для букетов</h2>
+{% set types = ['Розы', 'Хризантемы', 'Пионы', 'Гвоздики'] %}
+    {% set names = ['roses', 'Хризантемы', 'Пионы', 'Гвоздики'] %}
+
+<ul>
+    {% for type in range(8) %}
+    <li><a href="http://127.0.0.1:5000/{{ names[type] }}">{{ types[type] }}</a></li>
+    {% endfor %}
+</ul>
+<h3>Информация</h3>
+<div>
+Телефон: +77035832653
+    <div>Адрес: Эпл стрит 56</div>
+    <div><img src="/static/{{ image }}"></div>
+</div>
+</body>
+</html>
