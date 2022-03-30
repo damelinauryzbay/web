@@ -2,10 +2,12 @@ from flask import Flask
 from flask import render_template
 from data import db_session
 from flask_wtf import FlaskForm
+import requests
 from wtforms import PasswordField, StringField, TextAreaField, SubmitField, EmailField
 from wtforms.validators import DataRequired
 from data.db_session import SqlAlchemyBase
 import sqlalchemy
+import shutil
 
 # import sqlalchemy
 app = Flask(__name__)
@@ -14,9 +16,9 @@ number_of_roses = 0
 API_KEY = '40d1649f-0493-4b70-98ba-98533de7710b'
 
 
-class ShopImage():
-    def show_map(self, address):
-        map_request = f"http://static-maps.yandex.ru/1.x/?ll=76.947450,52.268104&z=18.98"
+# class ShopImage():
+#     def show_map(self, address):
+#         map_request = f"http://static-maps.yandex.ru/1.x/?ll=76.947450,52.268104&z=5"
 
 
 #
@@ -37,8 +39,14 @@ class RegisterForm(FlaskForm):
 
 @app.route('/')
 def index():
-    # iage = adds
-    return render_template("design.html")
+    map_request = f"http://static-maps.yandex.ru/1.x/?ll=76.947450,52.268104&z=15&l=map"
+    response = requests.get(map_request)
+    map_file = "map.png"
+    with open(map_file, "wb") as file:
+        file.write(response.content)
+    shutil.move('C:/Пользователи/User/PycharmProjects/pythonProject1/map.png',
+                'C:/Пользователи/User/PycharmProjects/pythonProject1/static')
+    return render_template("design.html", image='/static/map.png')
 
 
 @app.route('/roses')
