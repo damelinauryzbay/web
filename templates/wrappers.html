@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ассортимент обертки</title>
+</head>
+<h1>Виды упаковки</h1>
+<body>
+{% set types = [('Крафт-бумага', 500, '/static/craft.png'),
+('Газетная', 550, '/static/newspaper.png'),
+('Полупрозрачная', 350, '/static/transparent.jpg'), ('Бумага', 300, '/static/paper.jpg')] %}
+<ul>
+    {% for type in range(4) %}
+    <li>{{ types[type][0] }}, {{ types[type][1] }}тг
+     <p><img src='{{ types[type][2] }}' alt="Картинка" width = "300" height= "300"></p>
+    </li>
+    {% endfor %}
+</ul>
+</body>
+</html>
