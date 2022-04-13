@@ -13,7 +13,7 @@ app = Flask(__name__)
 colors = [('blue', 'white'), ('white', 'red'), ('yellow', 'orange')]
 number_of_roses = 0
 API_KEY = '40d1649f-0493-4b70-98ba-98533de7710b'
-
+app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
@@ -30,8 +30,11 @@ def reqister():
                                    message="Такой пользователь уже есть")
         user = User(
 
-            email=form.email.data
         )
+        user.name = form.name.data
+        user.email = form.email.data
+        user.about = form.about.data
+        user.set_password(form.password.data)
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
@@ -114,7 +117,7 @@ def wrapper():
 
 def main():
     db_session.global_init("db/blogs.db")
-    app.run()
+    app.run(host='127.0.0.1', port=5000)
 
 
 class Order:
