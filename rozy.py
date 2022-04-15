@@ -1,4 +1,4 @@
-from flask import Flask, redirect
+from flask import Flask, redirect, request
 from flask import render_template
 from data import db_session
 from data.users import User
@@ -10,6 +10,7 @@ from form.user import RegisterForm
 from form.order import OrderForm
 from flask_login import LoginManager, login_user, login_required, logout_user
 from form.user_enter import SignInForm
+
 
 app = Flask(__name__)
 colors = [('blue', 'white'), ('white', 'red'), ('yellow', 'orange')]
@@ -85,13 +86,13 @@ def order():
         order.type_of_flower = form.type_of_flower.data
         order.type_of_wrapper = form.type_of_wrapper.data
         order.number_of_flowers = form.number_of_flowers.data
-        print(form.type_of_flower.value)
         db_sess.add(order)
         db_sess.commit()
+        return redirect('/')
     return render_template('order.html', form=form)
 
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def index():
     map_request = f"http://static-maps.yandex.ru/1.x/?ll=76.947450,52.268104&z=18&l=map"
     response = requests.get(map_request)
@@ -100,7 +101,6 @@ def index():
         file.write(response.content)
     filename = abspath('map.png')
     filename1 = filename[:-7] + "static\map.png"
-    print(filename, filename1)
     shutil.move(filename,
                 filename1)
     return render_template("design.html", image='static\map.png')
@@ -154,7 +154,7 @@ def gvoz():
     price = 430
     info = 'Гвоздики Дон Педро - самые красные и популярные гвоздики. Являются символом любви и будут ' \
            'лучшим выбором для подарка любимому человеку!'
-    name_of_photo = '/static/gvordiki.jpg'
+    name_of_photo = '/static/gvozdiki.jpg'
     return render_template("flowers.html",
                            title=title, head=head, price=price, info=info, photo=name_of_photo, name=name)
 
