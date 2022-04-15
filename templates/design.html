@@ -5,19 +5,25 @@
 </head>
 <body>
     <h1> Цветочный Магазин </h1>
+    <h2 align="right"><a href="http://127.0.0.1:5000/register">Регистрация</a></h2>
+    <h2 align="right"><a href="http://127.0.0.1:5000/order">Покупка</a></h2>
 <img src="/static/logo.jpg" alt="Картинка" width = "700" height= "500">
 <h2>Цветы для букетов</h2>
 {% set types = ['Розы', 'Хризантемы', 'Пионы', 'Гвоздики'] %}
-    {% set names = ['roses', 'chrys', 'pions', 'gvozdiki'] %}
+    {% set names = ['roses', 'chrys', 'pions', 'gvordiki'] %}
 
 <ul>
     {% for type in range(4) %}
     <li><a href="http://127.0.0.1:5000/{{ names[type] }}">{{ types[type] }}</a></li>
     {% endfor %}
 </ul>
-
+    <h3>Подбор цветов</h3>
+<form>
+    <label for="color1">Введите цвет:</label><br>
+    <input type="text" id="color1" name="color1"><br>
+    <input type="submit" value="Submit">
+</form>
     <h2><a href="http://127.0.0.1:5000/wrapper">Упаковка</a></h2>
-    <h2><a href="http://127.0.0.1:5000/register">Регистрация</a></h2>
 <h3>Информация</h3>
 <div>
 Телефон: +77035832653
