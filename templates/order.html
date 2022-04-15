@@ -1,0 +1,22 @@
+
+<h1>Выбор</h1>
+<form action= "" method="post">
+    <p>
+    <select>
+       {% set types = [('Розы', 'roses'), ('Хризантемы', 'chrys'), ('Пионы', 'pions'), ('Гвоздики', 'gvos')] %}
+        {% for type in range(4) %}
+        <option  value="{{ types[type][1] }}">{{ types[type][0] }}</option>
+        {% endfor %}
+    </select>
+    </p>
+    <h3>Обертка</h3>
+    <p>
+        <select>
+            {% set types = ['Крафт-бумага', 'Газетная', 'Полупрозрачная', 'Бумага'] %}
+           {% for type in range(4) %}
+            <option>{{ types[type] }}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <input type="submit" value="Submit">
+</form>
