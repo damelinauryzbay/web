@@ -2,18 +2,30 @@ from flask import Flask, redirect
 from flask import render_template
 from data import db_session
 from data.users import User
-import sqlalchemy
+from data.orders import Order
 import requests
 import shutil
 from os.path import abspath
-# import sqlalchemy
 from form.user import RegisterForm
+from form.order import OrderForm
+from flask_login import LoginManager, login_user, login_required, logout_user
+from form.user_enter import SignInForm
 
 app = Flask(__name__)
 colors = [('blue', 'white'), ('white', 'red'), ('yellow', 'orange')]
 number_of_roses = 0
 API_KEY = '40d1649f-0493-4b70-98ba-98533de7710b'
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    db_sess = db_session.create_session()
+    return db_sess.query(User).get(user_id)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
@@ -40,6 +52,43 @@ def reqister():
         db_sess.commit()
         return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = SignInForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.email == form.email.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            return redirect("/")
+        return render_template('login.html',
+                               message="Неправильный логин или пароль",
+                               form=form)
+    return render_template('login.html', title='Авторизация', form=form)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
+
+
+@app.route('/order', methods=['GET', 'POST'])
+def order():
+    form = OrderForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        order = Order()
+        order.type_of_flower = form.type_of_flower.data
+        order.type_of_wrapper = form.type_of_wrapper.data
+        order.number_of_flowers = form.number_of_flowers.data
+        print(form.type_of_flower.value)
+        db_sess.add(order)
+        db_sess.commit()
+    return render_template('order.html', form=form)
 
 
 @app.route('/')
@@ -119,19 +168,6 @@ def main():
     db_session.global_init("db/blogs.db")
     app.run(host='127.0.0.1', port=5000)
 
-
-class Order:
-    __tablename__ = "orders"
-    name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    email = sqlalchemy.Column(sqlalchemy.String,
-                              index=True, unique=True, nullable=True)
-    address = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    phonenumber = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    numberofroses = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-
-
-order = Order()
-number_of_roses += order.numberofroses
 
 if __name__ == '__main__':
     main()
